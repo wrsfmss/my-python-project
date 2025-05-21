@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or Discussion
+    url: https://github.com/wrsfmss/my-python-project/discussions
+    about: Please ask and answer questions here.
+  - name: Security Issue
+    url: https://github.com/wrsfmss/my-python-project/security/policy
+    about: Please report security vulnerabilities following our security policy.
