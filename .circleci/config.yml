@@ -1,0 +1,57 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+
+      - python/install-packages:
+          pkg-manager: pip
+          packages:
+            - poetry
+
+      - restore_cache:
+          keys:
+            - poetry-deps-{{ checksum "poetry.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: poetry install
+
+      - save_cache:
+          key: poetry-deps-{{ checksum "poetry.lock" }}
+          paths:
+            - ./.venv
+
+      - restore_cache:
+          keys:
+            - pre-commit-{{ checksum ".pre-commit-config.yaml" }}
+
+      - run:
+          name: Run pre-commit checks
+          command: |
+            pip install pre-commit
+            pre-commit run --all-files
+
+      - save_cache:
+          key: pre-commit-{{ checksum ".pre-commit-config.yaml" }}
+          paths:
+            - ~/.cache/pre-commit
+
+      - run:
+          name: Run Tests
+          command: poetry run pytest
+
+      - run:
+          name: Build Package
+          command: poetry build
+
+workflows:
+  main:
+    jobs:
+      - build-and-test
