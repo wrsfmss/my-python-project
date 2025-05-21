@@ -1,0 +1,38 @@
+[project]
+name = "my-python-project"
+version = "0.2.0"
+description = ""
+authors = [
+    {name = "smileywr",email = "wrsfmss@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi (>=0.100.0,<0.110.0)"
+]
+
+[tool.poetry]
+packages = [{include = "my_python_project", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+black = "^25.1.0"
+flake8 = "^7.2.0"
+requests = "^2.32.3"
+mypy = "^1.15.0"
+pre-commit = "^4.2.0"
+coverage = "^7.8.0"
+bandit = "^1.8.3"
+isort = "^6.0.1"
+
+
+[tool.poetry.group.optional.dependencies]
+uvicorn = {extras = ["standard"], version = "^0.34.2"}
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
